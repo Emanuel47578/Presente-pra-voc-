@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presente para Você</title>
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #3d1a54, #6c3483);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .main-heart {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            background-image: url('coração.webp'); /* Replace with actual image URL */
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            z-index: 2;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 3;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .message p {
+            margin: 0;
+            font-size: 18px;
+            color: #3d1a54;
+        }
+
+        .confetti {
+            position: fixed;
+            top: -10%; /* Start from above the viewport */
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            animation: confetti-fall 3s ease-in-out infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(720deg); /* Ends below the viewport */
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-heart" onclick="showMessage()"></div>
+
+    <div class="message" id="message">
+        <p>Te amo muito meu amor ❤️ você é muito importante pra mim, e espero que a gente fique muito tempo juntos.</p>
+    </div>
+
+    <audio id="romantic-music" src="musica-romantica.mp3" loop></audio> <!-- Adicione sua música aqui -->
+
+    <script>
+        function showMessage() {
+            const message = document.getElementById('message');
+            const music = document.getElementById('romantic-music');
+            message.style.transform = 'translate(-50%, -50%) scale(1)';
+            music.play();
+            generateConfetti();
+        }
+
+        function generateConfetti() {
+            // Gerar confetes em loop contínuo
+            setInterval(() => {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                document.body.appendChild(confetti);
+
+                const left = Math.random() * 100; // Posição horizontal aleatória
+                const duration = Math.random() * 2 + 3; // Duração da animação aleatória
+                const size = Math.random() * 8 + 5; // Tamanho do confete aleatório
+
+                confetti.style.left = `${left}vw`;
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.animationDuration = `${duration}s`;
+                confetti.style.backgroundColor = getRandomColor();
+
+                // Remover o confete após a animação
+                confetti.addEventListener('animationend', () => {
+                    confetti.remove();
+                });
+            }, 100); // Intervalo de 100ms para continuar gerando confetes
+        }
+
+        function getRandomColor() {
+            const colors = ['#ff5733', '#33ff57', '#3357ff', '#f0f033', '#f033f0', '#33f0f0'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+    </script>
+</body>
+</html>
